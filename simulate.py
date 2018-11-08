@@ -13,8 +13,8 @@ from plotter import plot_ddv, plot_radar_vel, scatterplot, plot_wind_polar
 from datetime import datetime
 import glob
 
-start = datetime(2018, 11, 4, 6, 0, 0)
-stop = datetime(2018, 11, 4, 14, 0, 0)
+start = datetime(2018, 11, 1, 0, 0, 0)
+stop = datetime(2018, 11, 1, 22, 0, 0)
 
 # The code will return error if within the time range the number of range gates change.
 # But if the ranges change while the number is kept constant it will not give any alert
@@ -26,10 +26,11 @@ meteo_wind_alpha = np.arctan2(uwind, vwind)
 plot_wind_polar(meteo_dt, model_height, meteo_wind_speed, meteo_wind_alpha*180.0/np.pi, title='model wind speed and direction')
 
 # Unpacking radar file
+m10_range, m10_dt, m10_ts, m10_azimuth, m10_elevation, m10_velg = getRadarData(start, stop, 'mira10')
 m36_range, m36_dt, m36_ts, m36_azimuth, m36_elevation, m36_velg = getRadarData(start, stop, 'mira36')
-#getRadarData(start, stop, 'mira10')
-#getRadarData(start, stop, 'mira94')
+
 plot_radar_vel(m36_dt, m36_range, m36_velg, minmax=[-2,1], colorlabel='Measured MDV mira-36 [m/s]')
+plot_radar_vel(m10_dt, m10_range, m10_velg, minmax=[-2,1], colorlabel='Measured MDV mira-10 [m/s]')
 
 # HERE WE NEED SOME PROCEDURE TO SELECT ICE CLOUDS.
 # POSSIBLE CHOICES INCLUDE DWR
