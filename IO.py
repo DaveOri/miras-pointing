@@ -34,7 +34,13 @@ def getMeteoData(start, stop):
     ms_uwind.append(uwind)
     ms_vwind.append(vwind)
     print(dt, uwind.shape)
-  return model_height, np.hstack(ms_dt), np.hstack(ms_ts), np.hstack(ms_uwind), np.hstack(ms_vwind)
+  dt = np.hstack(ms_dt)
+  mask = (dt>=start)*(dt<=stop)
+  dt = dt[mask]
+  ts = np.hstack(ms_ts)[mask]
+  uwind=np.hstack(ms_uwind)[:,mask]
+  vwind=np.hstack(ms_vwind)[:,mask]
+  return model_height, dt, ts, uwind, vwind
 
 
 def getRadarData(start, stop, radar='mira36'):
@@ -82,7 +88,14 @@ def getRadarData(start, stop, radar='mira36'):
     except:
       pass
     print(dt, r_velg.shape)
-  return r_rng, np.hstack(rs_dt), np.hstack(rs_ts), np.hstack(rs_azimuth), np.hstack(rs_elevation), np.hstack(rs_velg)
+  dt = np.hstack(rs_dt)
+  mask = (dt>=start)*(dt<=stop)
+  dt = dt[mask]
+  ts = np.hstack(rs_ts)[mask]
+  azi = np.hstack(rs_azimuth)[mask]
+  elv = np.hstack(rs_elevation)[mask]
+  vel = np.hstack(rs_velg)[:,mask]
+  return r_rng, dt, ts, azi, elv, vel
 
 
 def openMeteo(meteo_filename):
