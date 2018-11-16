@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import matplotlib.dates as md
 import numpy as np
+import cmocean
 
 xfmt = md.DateFormatter('%m%d-%H')
 
@@ -61,16 +62,16 @@ def plot_radar_vel(time, hgt, vel, cmap='viridis', minmax=None, ax=None, **kwarg
 
 def plot_wind_polar(time, hgt, wind_s, wind_a, minmax=None, axs=None, title=None, **kwargs):
   if minmax is None:
-    minmax=[[0,20],[-180,180]]
+    minmax=[[0,40],[-180,180]]
 
   if axs is None:
-    fig, axs = plt.subplots(1, 2, sharey=True)
+    fig, axs = plt.subplots(2, 1, sharex=True)
 
   plot_timeheight(time, hgt, wind_s, minmax=minmax[0], ax=axs[0],
                   colorlabel='Wind speed [m/s]', **kwargs)
   
   plot_timeheight(time, hgt, wind_a, minmax=minmax[1], ax=axs[1],
-                  colorlabel='Wind direction [deg]', **kwargs)
+                  colorlabel='Wind direction [deg]', cmap='hsv')
   
   if title is not None:
     fig.suptitle(title)
